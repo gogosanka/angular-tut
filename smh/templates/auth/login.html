@@ -1,0 +1,13 @@
+<!Doctype html>
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block content %}
+{% with messages = get_flashed_messages() %}
+{% endwith %}
+
+{{ form.hidden_tag() }}
+{{ wtf.quick_form(form) }}
+      <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
+      <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
+
+{% endblock %}

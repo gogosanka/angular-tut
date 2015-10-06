@@ -1,0 +1,87 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+<!DOCTYPE html>
+{% block styles %}
+{{ super() }}    
+    <head>
+        <title>Wordcount</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <style>
+      .container {
+        max-width: 1000px;
+      }
+    </style>
+{% endblock %}
+{% block content %}
+{% with messages = get_flashed_messages() %}
+{% endwith %}
+
+{% block body %}
+<!DOCTYPE html>
+<body>
+  <header>
+
+  </header>
+  <div>
+    <ul class="nav">
+      {% if current_user.is_authenticated() %}
+      <li>{{ user }} is logged in.</li>
+      <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
+      {% else %}
+      <li>{{ user }}</li>
+      <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
+      <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
+      {% endif %} 
+    </ul>
+  </div>
+
+ <div class="container">
+      <h1>Wordcount 5000</h1>
+      <form role="form" method='POST' action='/'>
+        <div class="form-group">
+          <input type="text" name="url" class="form-control" id="url-box" placeholder="Enter URL..." style="max-width: 300px;">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+      </form>
+      <br>
+      {% for error in errors %}
+        <h4>{{ error }}</h4>
+      {% endfor %}
+    </div>
+
+
+<!-- RESULTS -->
+  <div class="col-sm-5 col-sm-offset-1">
+          {% if results %}
+            <h2>Frequencies</h2>
+            <br>
+            <div id="results">
+              <table class="table table-striped" style="max-width: 300px;">
+                <thead>
+                  <tr>
+                    <th>Word</th>
+                    <th>Count</th>
+                  </tr>
+                </thead>
+                {% for result in results%}
+                  <tr>
+                    <td>{{ result[0] }}</td>
+                    <td>{{ result[1] }}</td>
+                  </tr>
+                {% endfor %}
+              </table>
+            </div>
+          {% endif %}
+        </div>
+</div>
+</body>
+
+<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+{% endblock %}
+{% endblock %}

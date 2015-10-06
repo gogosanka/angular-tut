@@ -1,0 +1,115 @@
+<!doctype html>
+{% extends "bootstrap/base.html" %}
+{% block title %}
+  {% if title %}
+    {{ title }}
+  {% else %}
+    Welcome to SMH
+  {% endif %}
+{% endblock %}
+
+{% block styles %}
+{{ super() }}
+  <meta charset="utf-8">
+  <script type="text/javascript" src="{{ url_for('static', filename='style/js/jquery-2.1.4.min.js') }}"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style/css/bootstrap.min.css') }}">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+{% endblock %}
+
+<!-- template code begins for all page divs -->
+{% block body %}
+<body background="{{ url_for('static', filename='img/bg1.jpg') }}">
+<!-- navigation bar goes here -->
+{% block navbar %}
+<style>
+body {
+  padding-top: 80px;
+}
+</style>
+<div id="navigation-bar" class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header"><a class="navbar-brand" href="/">smh</a>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-menubuilder"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse navbar-menubuilder">
+            <ul class="nav navbar-nav navbar-right">
+                {% if current_user.is_authenticated() %}
+                <li><a href="#">{{ current_user }}</a></li>
+                <li><a href="/posts">Posts</a></li>
+                <li><a href="/new">Create</a></li>
+                <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
+                {% else %}
+                <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
+                <li><a href="{{ url_for('signup') }}">Sign Up</a></li>
+                {% endif %}              
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
+<body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          {% if album %}<legend>{{ album.title }} by {{ album.author }}</legend>{% endif %}
+          {% block content %}Default content until overwritten.{% endblock %}
+        </div>
+
+        <!-- this is the QUIKDASH section -->
+        <div class="col-md-4"> 
+            <!-- begin right side bar code -->
+          <div class="col-md-3 sidebar-nav-fixed affix">
+            <div class="panel panel-default">
+              <div class="panel-thumbnail">
+<!-- QUIKDASH DATA LOADING -->
+          <!-- Load user data of logged in user if in self profile -->
+          {% if user and user.nickname == current_user.nickname %}
+            <!-- Check if a cover photo is available for logged in user -->
+            {% if cover %}<img src="{{ cover.default }}" class="img-responsive"></div>
+            {% else %}<img src="http://orig11.deviantart.net/8d3a/f/2010/056/c/5/moon_dance_by_cybrea_stock.jpg" class="img-responsive"></div>
+            {% endif %}
+            <!-- end cover -->
+            <!-- complete QUIKDASH details -->
+            <div class="panel-body">
+            <p class="lead">{{ user.nickname }}</p>
+            <p>{{ follower }} Followers, {{ posts_count }} Posts</p>
+            <p><a href="/bin" class="glyphicon glyphicon-trash">{{ bin_count }}</a></p>
+            <!-- end QUIKDASH details -->
+          <!-- End loading user data if logged in -->
+          {% else %}
+            <!-- Load user data if browsing other profiles or browsing anonymously -->
+            {% if user and user.nickname != current_user.nickname %}
+              <!-- Check if a cover photo is available for logged in user -->
+              {% if cover %}<img src="{{ cover.default }}" class="img-responsive"></div>
+              {% else %}<img src="http://www.bootply.com/assets/example/bg_5.jpg" class="img-responsive"></div>
+              {% endif %}
+              <!-- end cover -->
+              <!-- complete QUIKDASH details -->
+              <div class="panel-body">
+              <p class="lead">{{ user.nickname }}</p>
+              <p>{{ follower }} Followers, {{ posts_count }} Posts</p>
+              <!-- end QUIKDASH details -->
+              <!-- End loading user data if non-self profiles -->
+          {% else %}
+            {% if cover %}<img src="{{ cover.default }}" class="img-responsive"></div>
+              {% else %}<img src="http://www.bootply.com/assets/example/bg_5.jpg" class="img-responsive"></div>
+              {% endif %}
+              <!-- end cover -->
+              <!-- complete QUIKDASH details -->
+              <div class="panel-body">
+              <p class="lead">Hello Stranger, please sign up!</p>
+              <!-- end QUIKDASH details -->
+              <!-- End loading user data if non-self profiles -->            
+          {% endif %}{% endif %}  
+<!-- End loading data QUIKDASH -->
+                </div>
+              </div>
+                  </div>
+                </div>
+              </div>
+            
+            </body>
+
+<!-- endblock for block body -->
+{% endblock %}

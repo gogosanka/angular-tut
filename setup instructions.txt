@@ -1,0 +1,3 @@
+Make sure to create an environmental variable for the app's config file, then make sure app.py is pointing to that config file. Currently it is set in a windows environment with a windows environmental variable called 'APP_SETTINGS' without the single quotes. The env variable value is: "C:\Users\Jeffrey\Desktop\workplace\angular\config.py" including the double quotes. -10/5/15 jeff
+
+Make sure to use JSON fields in the model as String fields (text/varchar sql types). When saving to the db, convert JSON data into string before saving, and when retrieving, convert back into JSON as necessary. -10/5/15 jeff
